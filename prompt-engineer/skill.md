@@ -12,8 +12,7 @@ Transforms rough prompt ideas into production-grade prompts that achieve 100% de
 
 ## Before Starting
 
-1. Read `/Users/troybrave/.claude/skills/prompt-engineer/skill-log.md` to learn from past sessions
-2. For transformation examples, reference `/Users/troybrave/.claude/skills/prompt-engineer/references/before-after-examples.md`
+For transformation examples, reference the `references/before-after-examples.md` file in this skill's directory.
 
 ---
 
@@ -754,48 +753,7 @@ The skill-log is a learning database that makes this skill smarter over time.
 
 ### Before Each Use
 
-Read `/Users/troybrave/.claude/skills/prompt-engineer/skill-log.md` to check:
-- **Known Issues** - Problems encountered before and how they were solved
-- **User Preferences** - Patterns the user prefers
-- **Task-Specific Learnings** - What works for specific task types
-
-### After Each Use
-
-1. Ask: "How did this prompt work? Any issues or unexpected behavior?"
-
-2. **If feedback given**, update the skill-log with:
-
-```markdown
-## Session: [Date] - [Task Type]
-
-### What Worked
-- [Pattern/technique that succeeded]
-
-### What Failed
-- [Pattern/technique that didn't work] → [Why] → [Fix for next time]
-
-### User Preference Learned
-- [Preference discovered]
-
-### Prompt Pattern to Reuse
-```
-[Copy of successful prompt pattern]
-```
-```
-
-3. **If "no issues"**, increment clean_runs counter in skill-log
-
-4. **After 4+ clean runs** for a task type, that pattern is considered stable
-
-### Skill Improvement Triggers
-
-| Trigger | Action |
-|---------|--------|
-| Same error twice | Add to "Known Issues" section with permanent fix |
-| User corrects output format | Add their preferred format to skill-log |
-| New task type encountered | Document what worked after success |
-| User says "perfect" | Save that prompt pattern as a template |
-| Prompt scored below 80 | Analyze why and add learning to skill-log |
+Ask: "How did this prompt work? Any issues or unexpected behavior?" to gather feedback and improve over time.
 
 ---
 
@@ -904,8 +862,7 @@ If below 90, list what's missing and how to address it.
 
 ## References
 
-For detailed before/after transformation examples, see:
-`/Users/troybrave/.claude/skills/prompt-engineer/references/before-after-examples.md`
+For detailed before/after transformation examples, see `references/before-after-examples.md` in this skill's directory.
 
 This includes 5 comprehensive examples covering:
 - Code Analysis (Claude)

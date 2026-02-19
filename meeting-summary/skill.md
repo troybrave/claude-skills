@@ -17,7 +17,7 @@ description: "Generate Fireflies-quality meeting summaries from transcripts. Pro
 
 | Rule | Requirement |
 | :--- | :--- |
-| **Deterministic Names** | Use full names matching `contacts.json` (e.g., "Justin Sierra", not "Justin"). |
+| **Deterministic Names** | Use full names from the transcript (e.g., "John Smith", not "John"). |
 | **Absolute ISO Dates** | All deadlines must use `YYYY-MM-DD` (e.g., `2026-01-05`, not "Monday"). |
 | **Total Timestamping** | Every decision, action item, and risk MUST have a `[HH:MM]` anchor. |
 | **Speaker Consistency** | Metadata participants must match action item owners exactly. |
@@ -75,6 +75,6 @@ Items without clear owner or deadline.
 
 ## Quality Gate (100/100 Checklist)
 - [ ] No relative dates ("next week", "Friday").
-- [ ] No ambiguous names ("Troy", "Matty").
+- [ ] No ambiguous names (first names only when multiple people share them).
 - [ ] 100% timestamp coverage for extracted items.
 - [ ] Every action uses `- [ ] **Owner**: ` format.

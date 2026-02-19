@@ -10,10 +10,6 @@ Creates precisely optimized prompts that generate high-converting marketing copy
 
 ---
 
-## Before Starting
-
-Read `/Users/troybrave/.claude/skills/copywriting-prompt/skill-log.md` to learn from past sessions.
-
 ---
 
 ## Workflow
@@ -241,13 +237,9 @@ Before delivering:
 
 ---
 
-## Skill Log Integration
+## Follow-Up
 
 After delivering a prompt:
 
 1. Ask: "How did the copy perform? Any elements that worked especially well?"
-2. If feedback given, update `/Users/troybrave/.claude/skills/copywriting-prompt/skill-log.md` with:
-   - Frameworks that resonated with user's audience
-   - Tone/voice preferences
-   - A/B test results if shared
-   - Industry-specific patterns that worked
+2. Note which frameworks resonated, tone preferences, and A/B test results for future reference.

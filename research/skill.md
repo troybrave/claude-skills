@@ -6,8 +6,6 @@ allowed-tools: Read, Write, Edit, Bash, Glob, Grep, WebSearch, WebFetch, AskUser
 
 # Research Skill
 
-Read `skill-log.md` before every run to learn from past sessions.
-
 ARGUMENTS: If arguments were provided, treat them as the research topic and begin Phase 1 immediately.
 
 ---
@@ -54,10 +52,9 @@ Build a phased, self-verifying research system for ANY topic that:
 **Domain:** General-purpose research — technology evaluation, market analysis, process comparison, strategic decisions, vendor assessment, trend analysis, best-practice identification.
 
 **User environment:**
-- Manages multiple teams and projects
-- Cost-efficiency matters (solutions scale across teams)
-- AI/LLM integration is a workflow priority
-- Values tools that integrate with existing stack
+- Adapt to the user's specific context and constraints
+- Prioritize practical, cost-effective solutions
+- Values tools that integrate with existing workflows
 - Distrusts marketing copy — wants real user experiences
 </context>
 

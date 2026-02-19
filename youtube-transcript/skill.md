@@ -65,9 +65,11 @@ Sanitize title for filesystem:
 
 ### 5. Convert to Markdown
 
-**First, ensure output directory exists:**
+**First, determine output directory:**
+- Ask the user where to save, or default to `~/Downloads/Youtube Transcripts/`
+
 ```bash
-mkdir -p "/Users/troybrave/Downloads/Youtube Transcripts"
+mkdir -p "$OUTPUT_DIR"
 ```
 
 **Then convert with Python:**
@@ -85,7 +87,7 @@ import re
 # Read video title and URL (from previous steps)
 video_title = "VIDEO_TITLE_HERE"
 video_url = "YOUTUBE_URL_HERE"
-output_file = "/Users/troybrave/Downloads/Youtube Transcripts/SANITIZED_TITLE.md"
+output_file = "OUTPUT_DIR/SANITIZED_TITLE.md"
 
 with open(output_file, 'w', encoding='utf-8') as out:
     # Write markdown header
@@ -153,4 +155,4 @@ Markdown file with:
 - No timestamps
 - Clean, readable text
 
-Saved to: `/Users/troybrave/Downloads/Youtube Transcripts/{sanitized_video_title}.md`
+Saved to: `~/Downloads/Youtube Transcripts/{sanitized_video_title}.md` (or user-specified directory)

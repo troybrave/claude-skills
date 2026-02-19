@@ -190,11 +190,7 @@ Accept the prompt, plan, project, or code from the user.
 
 If the submission is a file path, read the file first.
 
-### Step 2: Read Skill Log
-
-Read `/Users/troybrave/.claude/skills/prompt-review/skill-log.md` to learn from past reviews.
-
-### Step 3: Classify Submission Type
+### Step 2: Classify Submission Type
 
 Determine type:
 - **Prompt** → Focus on instruction clarity, LLM behavior, edge cases

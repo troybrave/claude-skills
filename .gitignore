@@ -34,7 +34,10 @@ node_modules/
 !youtube-transcript/
 !youtube-transcript/**
 
-# Re-ignore outputs and logs inside allowed skills
+# Re-ignore personal/runtime data inside allowed skills
 **/outputs/
 **/logs/
 **/*.backup
+**/skill-log.md
+**/changelog.md
+**/rewrites/
