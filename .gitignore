@@ -1,0 +1,27 @@
+# OS files
+.DS_Store
+Thumbs.db
+
+# Outputs and temp files
+outputs/
+*.tmp
+
+# Draft/spec files at root level
+*-spec.md
+*-eval-prompt.md
+*-final-prompt.md
+*-final-spec.md
+
+# Embedded git repos (these are separate projects)
+chase-transaction-import/
+sprint-rotation/
+gateway-skill-creator/repo-export/
+
+# Runtime artifacts
+daily-sync/logs/
+slack-gateway/state.json
+slack-gateway/discovery.json
+*.backup
+
+# Node modules
+node_modules/

@@ -1,0 +1,295 @@
+{
+  "$schema": "../brand-schema.json",
+  "client": {
+    "id": "brave-life",
+    "name": "Brave Life"
+  },
+  "metadata": {
+    "description": "Faith-based social media content with bold, modern aesthetic",
+    "version": "1.0.0",
+    "lastUpdated": "2025-11-25",
+    "maintainer": "Troy Brave"
+  },
+  "colors": {
+    "primary": {
+      "main": "#f04e23",
+      "light": "#ff6b40",
+      "dark": "#d43a10",
+      "contrast": "#FFFFFF"
+    },
+    "secondary": {
+      "main": "#1A1A1A",
+      "light": "#333333",
+      "dark": "#000000",
+      "contrast": "#FFFFFF"
+    },
+    "accent": {
+      "main": "#f04e23",
+      "light": "#ff6b40",
+      "dark": "#d43a10"
+    },
+    "neutral": {
+      "white": "#FFFFFF",
+      "offWhite": "#F8F9FA",
+      "lightGray": "#E9ECEF",
+      "gray": "#6C757D",
+      "darkGray": "#343A40",
+      "black": "#1A1A1A"
+    },
+    "text": {
+      "primary": "#1A1A1A",
+      "secondary": "#6C757D",
+      "inverse": "#FFFFFF",
+      "link": "#2C5F8D"
+    },
+    "background": {
+      "light": "#FFFFFF",
+      "medium": "#F8F9FA",
+      "dark": "#2C5F8D",
+      "inverse": "#1A1A1A"
+    },
+    "semantic": {
+      "success": "#28A745",
+      "warning": "#FFC107",
+      "error": "#DC3545",
+      "info": "#17A2B8"
+    },
+    "gradients": [
+      {
+        "name": "primary-gradient",
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          { "color": "#f04e23", "position": 0 },
+          { "color": "#d43a10", "position": 100 }
+        ],
+        "css": "linear-gradient(135deg, #f04e23 0%, #d43a10 100%)"
+      },
+      {
+        "name": "warm-gradient",
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          { "color": "#ff6b40", "position": 0 },
+          { "color": "#f04e23", "position": 100 }
+        ],
+        "css": "linear-gradient(135deg, #ff6b40 0%, #f04e23 100%)"
+      },
+      {
+        "name": "dark-gradient",
+        "type": "linear",
+        "angle": 135,
+        "stops": [
+          { "color": "#1A1A1A", "position": 0 },
+          { "color": "#000000", "position": 100 }
+        ],
+        "css": "linear-gradient(135deg, #1A1A1A 0%, #000000 100%)"
+      }
+    ]
+  },
+  "typography": {
+    "families": {
+      "primary": {
+        "name": "Inter",
+        "fallback": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+        "weights": [400, 500, 600, 700, 800]
+      },
+      "heading": {
+        "name": "Inter",
+        "fallback": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif",
+        "weights": [700, 800, 900]
+      },
+      "accent": {
+        "name": "Georgia",
+        "fallback": "Georgia, 'Times New Roman', serif",
+        "weights": [400, 700]
+      }
+    },
+    "scale": {
+      "base": 16,
+      "ratio": 1.25
+    },
+    "hierarchy": {
+      "h1": {
+        "size": 64,
+        "weight": 800,
+        "lineHeight": 1.1,
+        "letterSpacing": "-0.02em",
+        "textTransform": "none"
+      },
+      "h2": {
+        "size": 48,
+        "weight": 700,
+        "lineHeight": 1.2,
+        "letterSpacing": "-0.01em"
+      },
+      "h3": {
+        "size": 36,
+        "weight": 700,
+        "lineHeight": 1.3,
+        "letterSpacing": "0"
+      },
+      "body": {
+        "size": 18,
+        "weight": 400,
+        "lineHeight": 1.6,
+        "letterSpacing": "0"
+      },
+      "quote": {
+        "size": 48,
+        "weight": 700,
+        "lineHeight": 1.3,
+        "letterSpacing": "-0.01em"
+      },
+      "caption": {
+        "size": 24,
+        "weight": 500,
+        "lineHeight": 1.4,
+        "letterSpacing": "0.05em",
+        "textTransform": "uppercase"
+      }
+    }
+  },
+  "logos": {
+    "primary": {
+      "path": "assets/brave-life/logos/logo-primary.svg",
+      "format": "svg",
+      "variants": ["light", "dark"],
+      "minWidth": 120,
+      "maxWidth": 240,
+      "aspectRatio": "16:9",
+      "preferredPlacement": ["bottom-center", "bottom-right"]
+    },
+    "inverse": {
+      "path": "assets/brave-life/logos/logo-inverse.svg",
+      "format": "svg",
+      "usage": "Light backgrounds"
+    },
+    "icon": {
+      "path": "assets/brave-life/logos/icon.svg",
+      "format": "svg",
+      "size": 512
+    }
+  },
+  "layout": {
+    "safeZones": {
+      "instagram": {
+        "feed": {
+          "top": 80,
+          "bottom": 80,
+          "left": 80,
+          "right": 80
+        },
+        "story": {
+          "top": 250,
+          "bottom": 250,
+          "left": 60,
+          "right": 60
+        }
+      },
+      "facebook": {
+        "post": {
+          "top": 60,
+          "bottom": 60,
+          "left": 60,
+          "right": 60
+        }
+      },
+      "twitter": {
+        "post": {
+          "top": 60,
+          "bottom": 60,
+          "left": 60,
+          "right": 60
+        }
+      }
+    },
+    "grid": {
+      "columns": 12,
+      "gutter": 20,
+      "margin": 40
+    },
+    "spacing": {
+      "xs": 8,
+      "sm": 16,
+      "md": 24,
+      "lg": 40,
+      "xl": 64,
+      "xxl": 96
+    }
+  },
+  "platforms": {
+    "instagram": {
+      "feed": {
+        "dimensions": {
+          "width": 1080,
+          "height": 1080
+        },
+        "format": "jpg",
+        "quality": 90,
+        "maxFileSize": "8MB"
+      },
+      "story": {
+        "dimensions": {
+          "width": 1080,
+          "height": 1920
+        },
+        "format": "jpg",
+        "quality": 90,
+        "maxFileSize": "8MB"
+      }
+    },
+    "facebook": {
+      "post": {
+        "dimensions": {
+          "width": 1200,
+          "height": 630
+        },
+        "format": "jpg",
+        "quality": 90,
+        "maxFileSize": "8MB"
+      }
+    },
+    "twitter": {
+      "post": {
+        "dimensions": {
+          "width": 1200,
+          "height": 675
+        },
+        "format": "jpg",
+        "quality": 90,
+        "maxFileSize": "5MB"
+      }
+    }
+  },
+  "imagery": {
+    "style": "modern, bold, inspirational",
+    "filters": {
+      "brightness": 1.0,
+      "contrast": 1.1,
+      "saturation": 1.0
+    },
+    "overlays": {
+      "default": "gradient",
+      "opacity": 0.7
+    }
+  },
+  "templates": {
+    "enabled": [
+      "quote-gradient",
+      "quote-minimal",
+      "event-standard",
+      "announcement-bold"
+    ],
+    "defaults": {
+      "quote": "quote-gradient",
+      "event": "event-standard",
+      "announcement": "announcement-bold"
+    }
+  },
+  "validation": {
+    "contrastMinimum": "AA",
+    "accessibilityLevel": "WCAG2.0-AA",
+    "maxTextLength": 280
+  }
+}
