@@ -1,1 +1,0 @@
-Query Taskaroo Supabase database (read-only). Use for exploring schema, listing tables, and viewing database structure. Supports all Taskaroo projects (dev, staging, prod).

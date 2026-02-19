@@ -5,23 +5,36 @@ Thumbs.db
 # Outputs and temp files
 outputs/
 *.tmp
-
-# Draft/spec files at root level
-*-spec.md
-*-eval-prompt.md
-*-final-prompt.md
-*-final-spec.md
-
-# Embedded git repos (these are separate projects)
-chase-transaction-import/
-sprint-rotation/
-gateway-skill-creator/repo-export/
-
-# Runtime artifacts
-daily-sync/logs/
-slack-gateway/state.json
-slack-gateway/discovery.json
 *.backup
 
 # Node modules
 node_modules/
+
+# ===== ONLY PUBLISH SELECTED SKILLS =====
+# Ignore everything by default
+*
+
+# Allow repo files
+!.gitignore
+!README.md
+
+# Allow selected skills
+!copywriting-prompt/
+!copywriting-prompt/**
+!meeting-summary/
+!meeting-summary/**
+!pdf-to-markdown/
+!pdf-to-markdown/**
+!prompt-engineer/
+!prompt-engineer/**
+!prompt-review/
+!prompt-review/**
+!research/
+!research/**
+!youtube-transcript/
+!youtube-transcript/**
+
+# Re-ignore outputs and logs inside allowed skills
+**/outputs/
+**/logs/
+**/*.backup
