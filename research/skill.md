@@ -95,7 +95,14 @@ Build a phased, self-verifying research system for ANY topic that:
 
 ### File Output Safety (Write/Read Hard Rules)
 
-All files MUST be written under a fixed directory: `research/`
+All files MUST be written under a **descriptive topic folder** inside the working directory — NEVER a generic `research/` subfolder.
+
+**Folder naming for `{topic-folder}`:**
+- Derive a short, human-readable folder name from the research topic (e.g., "Meta API Research", "Sony A7S III USB-C Power Research", "Best IDE for Claude Code Research")
+- Use Title Case with spaces (normal folder naming, not sanitized slugs)
+- Max length 60 characters
+- The folder name should make it immediately obvious what the research is about when browsing in Finder/Explorer
+- Create the folder at the same level as the skill's base directory (the working directory)
 
 **Filename sanitization for `{sanitized-topic}`:**
 - Lowercase
@@ -103,6 +110,10 @@ All files MUST be written under a fixed directory: `research/`
 - Remove all characters except a–z, 0–9, and hyphens
 - Max length 60 characters
 - If sanitization results in an empty name → use `research-topic`
+
+**File paths:** All findings and reports go inside the topic folder:
+- `{topic-folder}/{sanitized-topic}-findings.md`
+- `{topic-folder}/{sanitized-topic}-research-report.md`
 
 **Collision rule:**
 - If `{sanitized-topic}-findings.md` already exists → write to `{sanitized-topic}-findings-v2.md`, then `-v3`, etc.
@@ -305,7 +316,7 @@ Examples:
 - If conflicting pricing exists (regional, annual vs monthly, legacy vs current) → document ALL variants with billing cadence, region, and date checked
 - If a product has changed names, merged, or been acquired → note current status and whether pre-acquisition reviews still apply
 
-**Context Protection:** After researching each batch of 3 options, write findings to `{sanitized-topic}-findings.md` using the Write tool. This protects against context compression losing mid-research state. Continue with remaining options after writing.
+**Context Protection:** After researching each batch of 3 options, write findings to `{topic-folder}/{sanitized-topic}-findings.md` using the Write tool. This protects against context compression losing mid-research state. Continue with remaining options after writing.
 
 **Done when:** Every option has findings for every criterion (or explicit "data not available"), at least 2 source types per option, both positive and negative findings captured, all sources labeled with type and recency.
 
@@ -462,7 +473,7 @@ If not met: Score = N/A, note `[Insufficient evidence to score]`. If >25% of cri
 
 ## FINAL DELIVERABLE
 
-When all phases complete, write the full report to `{sanitized-topic}-research-report.md` using the Write tool:
+When all phases complete, write the full report to `{topic-folder}/{sanitized-topic}-research-report.md` using the Write tool:
 
 ```markdown
 # [Research Topic] — Research Report
@@ -520,7 +531,7 @@ When all phases complete, write the full report to `{sanitized-topic}-research-r
 ### Pricing & Vendor Data
 ```
 
-After writing to file, present **only the Executive Summary and Recommendation** inline to the user. Inform them: `"Full report written to {filename} — open in Obsidian for the complete deliverable."`
+After writing to file, present **only the Executive Summary and Recommendation** inline to the user. Inform them: `"Full report written to {topic-folder}/{filename} — open in Obsidian for the complete deliverable."`
 
 ---
 

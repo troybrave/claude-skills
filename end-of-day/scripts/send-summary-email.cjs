@@ -1,0 +1,260 @@
+#!/usr/bin/env node
+/**
+ * Send End-of-Day Summary Email
+ *
+ * Sends a formatted summary email to Troy's personal inbox.
+ *
+ * Usage: ./send-summary-email.cjs <json-file>
+ *        ./send-summary-email.cjs --stdin  # Read JSON from stdin
+ *        ./send-summary-email.cjs --dry-run <json-file>  # Preview without sending
+ *
+ * Expected JSON input:
+ * {
+ *   "date": "2025/12/11",
+ *   "sessions": [...],
+ *   "calendarEvents": [...],
+ *   "notionTasksCreated": { "completed": 5, "pending": 3 }
+ * }
+ */
+
+const { execSync } = require('child_process');
+const fs = require('fs');
+const path = require('path');
+
+const EMAIL_CLI = '/Users/troybrave/.claude/.CLI/email-cli/email-cli.cjs';
+const FROM_EMAIL = 'troy@endlesswinning.com';
+const TO_EMAIL = 'troybrave@gmail.com';
+
+function formatDate(dateStr) {
+  const parts = dateStr.split('/');
+  if (parts.length !== 3) return dateStr;
+
+  const date = new Date(parts[0], parseInt(parts[1]) - 1, parts[2]);
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  });
+}
+
+function groupByCompany(tasks) {
+  const groups = {};
+  for (const task of tasks) {
+    const company = task.company?.name || 'Other';
+    if (!groups[company]) groups[company] = [];
+    groups[company].push(task);
+  }
+  return groups;
+}
+
+function groupByPriority(tasks) {
+  const priorityOrder = ['🔥 Urgent', '🥑 High', '🥩 Medium', '🧊 Low'];
+  const groups = {};
+
+  for (const priority of priorityOrder) {
+    groups[priority] = [];
+  }
+
+  for (const task of tasks) {
+    const priority = task.priority || '🥩 Medium';
+    if (!groups[priority]) groups[priority] = [];
+    groups[priority].push(task);
+  }
+
+  return groups;
+}
+
+function buildEmailBody(data) {
+  const formattedDate = formatDate(data.date);
+  const sessions = data.sessions || [];
+
+  // Collect all tasks
+  const allCompleted = [];
+  const allPending = [];
+  const allDecisions = [];
+
+  for (const session of sessions) {
+    allCompleted.push(...(session.completedTasks || []));
+    allPending.push(...(session.pendingTasks || []));
+    allDecisions.push(...(session.decisions || []));
+  }
+
+  // Calculate total weight
+  const completedWeight = allCompleted.reduce((sum, t) => sum + (t.weight || 0), 0);
+  const pendingWeight = allPending.reduce((sum, t) => sum + (t.weight || 0), 0);
+
+  let body = `Hey Troy,
+
+Here's your end-of-day wrap-up for ${formattedDate}.
+
+`;
+
+  // Today's Sessions
+  body += `TODAY'S SESSIONS (${sessions.length})
+${'─'.repeat(40)}
+`;
+  for (const session of sessions) {
+    const summary = session.summary
+      ? session.summary.substring(0, 100) + (session.summary.length > 100 ? '...' : '')
+      : 'No summary';
+    body += `• ${session.filename} (${session.project})
+  ${summary}
+`;
+  }
+  body += '\n';
+
+  // Completed Work
+  body += `COMPLETED WORK (${allCompleted.length} items, ${completedWeight} points)
+${'─'.repeat(40)}
+`;
+  if (allCompleted.length === 0) {
+    body += 'No completed tasks today.\n';
+  } else {
+    const byCompany = groupByCompany(allCompleted);
+    for (const [company, tasks] of Object.entries(byCompany)) {
+      if (tasks.length === 0) continue;
+      body += `\n${company}:\n`;
+      for (const task of tasks) {
+        body += `  ✓ ${task.title.replace('[EOD] ', '')} (weight: ${task.weight})\n`;
+      }
+    }
+  }
+  body += '\n';
+
+  // Pending Items
+  body += `PENDING ITEMS (${allPending.length} items, ${pendingWeight} points)
+${'─'.repeat(40)}
+`;
+  if (allPending.length === 0) {
+    body += 'No pending action items.\n';
+  } else {
+    const byPriority = groupByPriority(allPending);
+    for (const [priority, tasks] of Object.entries(byPriority)) {
+      if (tasks.length === 0) continue;
+      body += `\n${priority}:\n`;
+      for (const task of tasks) {
+        body += `  • ${task.title} (weight: ${task.weight})\n`;
+      }
+    }
+  }
+  body += '\n';
+
+  // Key Decisions
+  if (allDecisions.length > 0) {
+    body += `KEY DECISIONS MADE
+${'─'.repeat(40)}
+`;
+    for (const d of allDecisions) {
+      body += `• ${d.decision}: ${d.choice}\n`;
+      if (d.rationale) {
+        body += `  Reason: ${d.rationale}\n`;
+      }
+    }
+    body += '\n';
+  }
+
+  // Calendar Activity
+  if (data.calendarEvents && data.calendarEvents.length > 0) {
+    body += `CALENDAR ACTIVITY
+${'─'.repeat(40)}
+`;
+    for (const event of data.calendarEvents) {
+      const time = event.time || '';
+      body += `• ${time} ${event.title}\n`;
+    }
+    body += '\n';
+  }
+
+  // Notion Tasks Created
+  if (data.notionTasksCreated) {
+    body += `NOTION TASKS CREATED
+${'─'.repeat(40)}
+`;
+    body += `• ${data.notionTasksCreated.completed || 0} completed tasks logged
+• ${data.notionTasksCreated.pending || 0} pending tasks created
+`;
+    body += '\n';
+  }
+
+  body += `${'─'.repeat(40)}
+
+Great work today!
+
+This summary was auto-generated by the end-of-day skill.
+`;
+
+  return body;
+}
+
+function sendEmail(subject, body, dryRun = false) {
+  if (dryRun) {
+    console.log('\n📧 DRY RUN - Email would be sent:');
+    console.log(`From: ${FROM_EMAIL}`);
+    console.log(`To: ${TO_EMAIL}`);
+    console.log(`Subject: ${subject}`);
+    console.log('─'.repeat(50));
+    console.log(body);
+    console.log('─'.repeat(50));
+    return { success: true, dryRun: true };
+  }
+
+  try {
+    // Escape special characters for shell
+    const escapedSubject = subject.replace(/"/g, '\\"').replace(/\$/g, '\\$');
+    const escapedBody = body.replace(/"/g, '\\"').replace(/\$/g, '\\$').replace(/`/g, '\\`');
+
+    const cmd = `cd /Users/troybrave/.claude/.CLI/email-cli && node email-cli.cjs send "${FROM_EMAIL}" "${TO_EMAIL}" "${escapedSubject}" "${escapedBody}"`;
+
+    execSync(cmd, { encoding: 'utf8', maxBuffer: 50 * 1024 * 1024 });
+    console.log(`✅ Email sent to ${TO_EMAIL}`);
+    return { success: true };
+  } catch (error) {
+    console.error(`❌ Failed to send email: ${error.message}`);
+
+    // Save backup
+    const backupPath = `/tmp/eod-summary-${new Date().toISOString().split('T')[0]}.md`;
+    fs.writeFileSync(backupPath, `Subject: ${subject}\n\n${body}`);
+    console.log(`📄 Backup saved to: ${backupPath}`);
+
+    return { success: false, error: error.message, backup: backupPath };
+  }
+}
+
+function main() {
+  const args = process.argv.slice(2);
+  const dryRun = args.includes('--dry-run');
+  const useStdin = args.includes('--stdin');
+  const jsonFile = args.find(a => !a.startsWith('--'));
+
+  let data;
+
+  if (useStdin) {
+    const input = fs.readFileSync(0, 'utf8');
+    data = JSON.parse(input);
+  } else if (jsonFile) {
+    const content = fs.readFileSync(jsonFile, 'utf8');
+    data = JSON.parse(content);
+  } else {
+    console.log('Usage: ./send-summary-email.cjs <json-file>');
+    console.log('       ./send-summary-email.cjs --stdin');
+    console.log('       ./send-summary-email.cjs --dry-run <json-file>');
+    process.exit(1);
+  }
+
+  const sessions = data.sessions || [];
+  const allCompleted = sessions.reduce((sum, s) => sum + (s.completedTasks?.length || 0), 0);
+  const allPending = sessions.reduce((sum, s) => sum + (s.pendingTasks?.length || 0), 0);
+
+  const formattedDate = formatDate(data.date);
+  const subject = `EOD Summary: ${formattedDate} - ${allCompleted} completed, ${allPending} pending`;
+  const body = buildEmailBody(data);
+
+  const result = sendEmail(subject, body, dryRun);
+
+  if (result.dryRun) {
+    console.log('\n✅ Dry run complete. Use without --dry-run to send.');
+  }
+}
+
+main();

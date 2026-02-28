@@ -10,31 +10,7 @@ outputs/
 # Node modules
 node_modules/
 
-# ===== ONLY PUBLISH SELECTED SKILLS =====
-# Ignore everything by default
-*
-
-# Allow repo files
-!.gitignore
-!README.md
-
-# Allow selected skills
-!copywriting-prompt/
-!copywriting-prompt/**
-!meeting-summary/
-!meeting-summary/**
-!pdf-to-markdown/
-!pdf-to-markdown/**
-!prompt-engineer/
-!prompt-engineer/**
-!prompt-review/
-!prompt-review/**
-!research/
-!research/**
-!youtube-transcript/
-!youtube-transcript/**
-
-# Re-ignore personal/runtime data inside allowed skills
+# Re-ignore personal/runtime data inside skills
 **/outputs/
 **/logs/
 **/*.backup

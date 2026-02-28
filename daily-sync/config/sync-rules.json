@@ -1,0 +1,26 @@
+{
+  "rules": {
+    "never_delete": true,
+    "always_backup_before_overwrite": true,
+    "preserve_conflicts": true,
+    "verify_every_copy": true,
+    "atomic_operations": true
+  },
+  "exclusions": {
+    "patterns": [
+      ".DS_Store",
+      "*.tmp",
+      ".git",
+      "node_modules",
+      "*.swp",
+      "*.swo",
+      ".~lock*",
+      "~$*"
+    ]
+  },
+  "verification": {
+    "require_md5_match": true,
+    "require_file_count_increase": true,
+    "max_file_count_decrease": 0
+  }
+}

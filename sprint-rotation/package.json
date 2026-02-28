@@ -1,0 +1,18 @@
+{
+  "name": "sprint-rotation",
+  "version": "1.0.0",
+  "description": "Automated sprint status rotation for Notion Master Cycles",
+  "main": "rotate-sprints.cjs",
+  "scripts": {
+    "rotate": "node rotate-sprints.cjs rotate",
+    "dry-run": "node rotate-sprints.cjs dry-run",
+    "status": "node rotate-sprints.cjs status",
+    "start": "node rotate-sprints.cjs rotate"
+  },
+  "dependencies": {
+    "@notionhq/client": "^2.2.15"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

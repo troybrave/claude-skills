@@ -1,0 +1,11 @@
+[build]
+builder = "nixpacks"
+
+[deploy]
+startCommand = "node rotate-sprints.cjs rotate"
+healthcheckPath = ""
+healthcheckTimeout = 100
+restartPolicyType = "never"
+cronSchedule = "0 6 * * 2"
+# 6 AM UTC = 1 AM EST (Tuesday)
+# Format: minute hour day-of-month month day-of-week

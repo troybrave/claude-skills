@@ -1,0 +1,509 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Brand Configuration Schema",
+  "description": "Complete brand identity configuration for social media image generation",
+  "type": "object",
+  "required": ["client", "colors", "typography", "logos", "layout", "platforms"],
+  "properties": {
+    "client": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique client identifier (kebab-case)",
+          "pattern": "^[a-z0-9-]+$",
+          "examples": ["brave-life", "mx-detail", "taskaroo"]
+        },
+        "name": {
+          "type": "string",
+          "description": "Client display name",
+          "examples": ["Brave Life", "MX Detail", "Taskaroo"]
+        },
+        "website": {
+          "type": "string",
+          "format": "uri",
+          "description": "Client website URL"
+        }
+      }
+    },
+    "colors": {
+      "type": "object",
+      "required": ["primary", "background", "text"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["main", "usage"],
+          "properties": {
+            "main": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "light": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "dark": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "usage": {
+              "type": "string",
+              "description": "When to use this color",
+              "examples": ["Headlines, CTAs, brand emphasis"]
+            }
+          }
+        },
+        "secondary": {
+          "type": "object",
+          "properties": {
+            "main": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "light": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "dark": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "usage": {"type": "string"}
+          }
+        },
+        "accent": {
+          "type": "array",
+          "description": "Accent colors for variety",
+          "items": {
+            "type": "object",
+            "properties": {
+              "hex": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+              "name": {"type": "string"},
+              "usage": {"type": "string"}
+            }
+          }
+        },
+        "background": {
+          "type": "object",
+          "required": ["light", "dark"],
+          "properties": {
+            "light": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "dark": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "paper": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
+          }
+        },
+        "text": {
+          "type": "object",
+          "required": ["primary", "secondary"],
+          "properties": {
+            "primary": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "secondary": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "disabled": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+            "inverse": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
+          }
+        },
+        "gradients": {
+          "type": "array",
+          "description": "Brand-approved gradient combinations",
+          "items": {
+            "type": "object",
+            "required": ["name", "css"],
+            "properties": {
+              "name": {"type": "string"},
+              "css": {
+                "type": "string",
+                "pattern": "^linear-gradient\\(",
+                "examples": ["linear-gradient(135deg, #667eea 0%, #764ba2 100%)"]
+              },
+              "usage": {"type": "string"}
+            }
+          }
+        },
+        "rules": {
+          "type": "object",
+          "description": "Color usage guidelines",
+          "properties": {
+            "contrastRatio": {
+              "type": "number",
+              "minimum": 4.5,
+              "description": "Minimum WCAG contrast ratio",
+              "default": 4.5
+            },
+            "maxColorsPerDesign": {
+              "type": "integer",
+              "minimum": 2,
+              "default": 3
+            },
+            "forbiddenCombinations": {
+              "type": "array",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "typography": {
+      "type": "object",
+      "required": ["families", "scale", "hierarchy"],
+      "properties": {
+        "families": {
+          "type": "object",
+          "required": ["primary"],
+          "properties": {
+            "primary": {
+              "type": "object",
+              "required": ["name", "weights", "usage"],
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "Font family name",
+                  "examples": ["Inter", "Roboto", "Montserrat"]
+                },
+                "weights": {
+                  "type": "array",
+                  "items": {"type": "integer", "enum": [100, 200, 300, 400, 500, 600, 700, 800, 900]}
+                },
+                "fallback": {
+                  "type": "string",
+                  "description": "System font fallback",
+                  "default": "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif"
+                },
+                "usage": {"type": "string"}
+              }
+            },
+            "secondary": {
+              "type": "object",
+              "description": "Accent or body font",
+              "properties": {
+                "name": {"type": "string"},
+                "weights": {"type": "array", "items": {"type": "integer"}},
+                "fallback": {"type": "string"},
+                "usage": {"type": "string"}
+              }
+            },
+            "display": {
+              "type": "object",
+              "description": "Decorative/headline font",
+              "properties": {
+                "name": {"type": "string"},
+                "weights": {"type": "array", "items": {"type": "integer"}},
+                "fallback": {"type": "string"},
+                "usage": {"type": "string"}
+              }
+            }
+          }
+        },
+        "scale": {
+          "type": "object",
+          "description": "Type scale in pixels",
+          "required": ["base"],
+          "properties": {
+            "base": {"type": "integer", "default": 16},
+            "ratio": {"type": "number", "default": 1.25, "description": "Scale ratio (e.g., 1.25 = major third)"},
+            "sizes": {
+              "type": "object",
+              "properties": {
+                "xs": {"type": "integer"},
+                "sm": {"type": "integer"},
+                "base": {"type": "integer"},
+                "lg": {"type": "integer"},
+                "xl": {"type": "integer"},
+                "2xl": {"type": "integer"},
+                "3xl": {"type": "integer"},
+                "4xl": {"type": "integer"},
+                "5xl": {"type": "integer"},
+                "6xl": {"type": "integer"}
+              }
+            }
+          }
+        },
+        "hierarchy": {
+          "type": "object",
+          "description": "Text hierarchy definitions",
+          "properties": {
+            "h1": {
+              "type": "object",
+              "properties": {
+                "size": {"type": "integer"},
+                "weight": {"type": "integer"},
+                "lineHeight": {"type": "number"},
+                "letterSpacing": {"type": "string"},
+                "textTransform": {"type": "string", "enum": ["none", "uppercase", "lowercase", "capitalize"]}
+              }
+            },
+            "h2": {"type": "object"},
+            "h3": {"type": "object"},
+            "body": {"type": "object"},
+            "caption": {"type": "object"},
+            "quote": {
+              "type": "object",
+              "description": "Special styling for quote text"
+            }
+          }
+        },
+        "rules": {
+          "type": "object",
+          "properties": {
+            "maxLineLength": {"type": "integer", "description": "Max characters per line for readability"},
+            "minimumFontSize": {"type": "integer", "default": 14},
+            "kerningAdjustments": {"type": "object"}
+          }
+        }
+      }
+    },
+    "logos": {
+      "type": "object",
+      "required": ["primary"],
+      "properties": {
+        "primary": {
+          "type": "object",
+          "required": ["path", "preferredPlacement"],
+          "properties": {
+            "path": {
+              "type": "string",
+              "description": "Absolute path to primary logo file"
+            },
+            "format": {"type": "string", "enum": ["svg", "png"], "default": "png"},
+            "minWidth": {"type": "integer", "description": "Minimum width in pixels"},
+            "maxWidth": {"type": "integer"},
+            "clearSpace": {"type": "integer", "description": "Minimum clear space around logo in pixels"},
+            "preferredPlacement": {
+              "type": "array",
+              "items": {"type": "string", "enum": ["top-left", "top-center", "top-right", "bottom-left", "bottom-center", "bottom-right", "center"]}
+            }
+          }
+        },
+        "icon": {
+          "type": "object",
+          "description": "Icon-only logo variation",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string"},
+            "size": {"type": "integer"}
+          }
+        },
+        "wordmark": {
+          "type": "object",
+          "description": "Text-only logo variation",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string"}
+          }
+        },
+        "inverse": {
+          "type": "object",
+          "description": "Light version for dark backgrounds",
+          "properties": {
+            "path": {"type": "string"},
+            "format": {"type": "string"}
+          }
+        },
+        "rules": {
+          "type": "object",
+          "properties": {
+            "neverStretch": {"type": "boolean", "default": true},
+            "alwaysVisible": {"type": "boolean", "default": true},
+            "backgroundColors": {
+              "type": "array",
+              "description": "Approved background colors for logo",
+              "items": {"type": "string"}
+            }
+          }
+        }
+      }
+    },
+    "layout": {
+      "type": "object",
+      "required": ["grid", "spacing"],
+      "properties": {
+        "grid": {
+          "type": "object",
+          "properties": {
+            "columns": {"type": "integer", "default": 12},
+            "gutter": {"type": "integer", "description": "Gutter width in pixels"},
+            "margin": {"type": "integer", "description": "Outer margin in pixels"}
+          }
+        },
+        "spacing": {
+          "type": "object",
+          "description": "Spacing scale in pixels",
+          "properties": {
+            "xs": {"type": "integer"},
+            "sm": {"type": "integer"},
+            "md": {"type": "integer"},
+            "lg": {"type": "integer"},
+            "xl": {"type": "integer"},
+            "2xl": {"type": "integer"}
+          }
+        },
+        "safeZones": {
+          "type": "object",
+          "description": "Safe zones for each platform",
+          "properties": {
+            "instagram": {
+              "type": "object",
+              "properties": {
+                "feed": {"type": "object", "properties": {"top": {"type": "integer"}, "bottom": {"type": "integer"}, "left": {"type": "integer"}, "right": {"type": "integer"}}},
+                "story": {"type": "object", "properties": {"top": {"type": "integer"}, "bottom": {"type": "integer"}, "left": {"type": "integer"}, "right": {"type": "integer"}}}
+              }
+            },
+            "facebook": {"type": "object"}
+          }
+        },
+        "alignment": {
+          "type": "object",
+          "properties": {
+            "default": {"type": "string", "enum": ["left", "center", "right"], "default": "center"},
+            "text": {"type": "string", "enum": ["left", "center", "right"]},
+            "logo": {"type": "string", "enum": ["left", "center", "right"]}
+          }
+        },
+        "rules": {
+          "type": "object",
+          "properties": {
+            "breathingRoom": {"type": "integer", "description": "Minimum padding from edges"},
+            "visualWeight": {"type": "string", "enum": ["top-heavy", "bottom-heavy", "centered", "balanced"]}
+          }
+        }
+      }
+    },
+    "platforms": {
+      "type": "object",
+      "description": "Platform-specific specifications",
+      "required": ["instagram", "facebook"],
+      "properties": {
+        "instagram": {
+          "type": "object",
+          "properties": {
+            "feed": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1080}, "height": {"type": "integer", "default": 1080}}},
+                "format": {"type": "string", "enum": ["png", "jpg"], "default": "jpg"},
+                "quality": {"type": "integer", "minimum": 0, "maximum": 100, "default": 90},
+                "maxFileSize": {"type": "string", "default": "30MB"}
+              }
+            },
+            "story": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1080}, "height": {"type": "integer", "default": 1920}}},
+                "format": {"type": "string", "default": "jpg"},
+                "quality": {"type": "integer", "default": 90}
+              }
+            },
+            "carousel": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1080}, "height": {"type": "integer", "default": 1080}}},
+                "maxSlides": {"type": "integer", "default": 10}
+              }
+            }
+          }
+        },
+        "facebook": {
+          "type": "object",
+          "properties": {
+            "post": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1200}, "height": {"type": "integer", "default": 630}}},
+                "format": {"type": "string", "default": "jpg"},
+                "quality": {"type": "integer", "default": 90}
+              }
+            },
+            "story": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1080}, "height": {"type": "integer", "default": 1920}}}
+              }
+            }
+          }
+        },
+        "twitter": {
+          "type": "object",
+          "properties": {
+            "post": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1200}, "height": {"type": "integer", "default": 675}}}
+              }
+            }
+          }
+        },
+        "linkedin": {
+          "type": "object",
+          "properties": {
+            "post": {
+              "type": "object",
+              "properties": {
+                "dimensions": {"type": "object", "properties": {"width": {"type": "integer", "default": 1200}, "height": {"type": "integer", "default": 627}}}
+              }
+            }
+          }
+        }
+      }
+    },
+    "imagery": {
+      "type": "object",
+      "description": "Visual style guidelines",
+      "properties": {
+        "photography": {
+          "type": "object",
+          "properties": {
+            "style": {"type": "string", "description": "Photography style description"},
+            "filters": {"type": "array", "items": {"type": "string"}},
+            "avoid": {"type": "array", "items": {"type": "string"}}
+          }
+        },
+        "illustrations": {
+          "type": "object",
+          "properties": {
+            "style": {"type": "string"},
+            "library": {"type": "string", "description": "Icon/illustration library to use"}
+          }
+        },
+        "textures": {
+          "type": "array",
+          "description": "Approved texture/pattern overlays",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {"type": "string"},
+              "path": {"type": "string"},
+              "opacity": {"type": "number", "minimum": 0, "maximum": 1}
+            }
+          }
+        }
+      }
+    },
+    "tone": {
+      "type": "object",
+      "description": "Brand tone and visual mood",
+      "properties": {
+        "mood": {
+          "type": "array",
+          "items": {"type": "string"},
+          "examples": [["bold", "energetic", "trustworthy"], ["minimal", "elegant", "sophisticated"]]
+        },
+        "personality": {"type": "string"},
+        "avoid": {
+          "type": "array",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "templates": {
+      "type": "object",
+      "description": "Preferred templates for this client",
+      "properties": {
+        "defaults": {
+          "type": "object",
+          "properties": {
+            "quote": {"type": "string", "examples": ["quote-gradient", "quote-minimal"]},
+            "announcement": {"type": "string"},
+            "event": {"type": "string"},
+            "blog": {"type": "string"}
+          }
+        },
+        "disabled": {
+          "type": "array",
+          "description": "Templates to disable for this client",
+          "items": {"type": "string"}
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "version": {"type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$"},
+        "lastUpdated": {"type": "string", "format": "date"},
+        "approvedBy": {"type": "string"},
+        "notes": {"type": "string"}
+      }
+    }
+  }
+}
